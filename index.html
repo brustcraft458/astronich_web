@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<head>
+    <style>
+
+        body {
+            position: relative;
+            background-color: #382634;
+        }
+        heder {
+            position: fixed;
+            width: 100%;
+            height: 40px;
+            left: 0%;
+            right: 0%;
+            top: 0px;
+            background-color: #382634;
+            box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.25)
+        }
+        .Hdetail {
+            position: absolute;
+            width: 38px;
+            height: 38px;
+            left: 10px;
+            top: 1px;
+            background-color: #382634;
+
+            border: none;
+            outline: none;
+        }
+        .Hdetail:hover {
+          background-color: #3F2C3B;
+        }
+        .badan {
+            position: static;
+            height: 756px;
+            left: 0%;
+            right: 0%;
+            background-color: #382634;
+        }
+        .bilekk {
+            width: 20;
+            height: 20;
+            background-color: aliceblue;
+        }
+        .boxx {
+            position: absolute;
+            width: 28px;
+            height: 28px;
+            right: 10px;
+            top: 8px;
+            background-color: rgb(255, 0, 0);
+        }
+        .GaleriKelas {
+            position: relative;
+            width: 310px;
+            margin: auto;
+        }
+        .GaleriKelas:after {
+          content: "";
+          display: table;
+          clear: both;
+        }
+
+        .Galeri {    
+            position: relative;
+            width: 310px;
+            height: 252px;
+            margin-bottom: 25px;
+            border-radius: 13px;
+        }
+
+        .GaleJudul {
+            position: relative;
+            width: 200px;
+            height: 22px;
+            top: 14px;
+            margin-left: 15px;
+            background: #50394B;
+            box-shadow: 0px 4px 12px rgb(0 0 0 / 25%);
+            border-radius: 20px;
+        }
+
+        .GaleJudulText {
+            position: absolute;
+            font-size: 14px;
+            left: 9px;
+            top: 4px;
+            font-family: 'Times New Roman', Times, serif;
+            color: #DDDDDD;
+        }
+
+        .GaleGambar {
+            position: relative;
+            width: 282px;
+            height: 163px;
+            margin-left: 15px;
+            top: 25px;
+
+            filter: drop-shadow(0px 4px 12px rgba(0, 0, 0, 0.25));
+            border-radius: 16px;
+            background-color: #50394B;
+        }
+
+        .GaleGambarIMG {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 16px;
+            background-color: #50394B;
+        }
+
+        .GaleTanggal {
+            position: relative;
+            width: 110px;
+            height: 22px;
+            float: right;
+            margin-right: 16px;
+            margin-top: 34px;
+            background: #50394B;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.25);
+            border-radius: 20px;
+        }
+
+        .GaleTanggalText {
+            position: relative;
+            display: inherit;
+            top: 4px;
+            font-size: 12px;
+            font-family: 'Times New Roman', Times, serif;
+            text-align: center;
+            align-self: center;
+            color: #DDDDDD;
+        }
+
+        .DetailMenu {
+            position: absolute;
+            background-color: #382634;
+            width: 0px;
+            height: 0px;
+            visibility: hidden;
+            margin-top: 10px;
+
+            filter: drop-shadow(0px 4px 12px rgba(0, 0, 0, 0.25));
+        }
+
+        .DetmenBody {
+            position: relative;
+            width: 80%;
+            height: 80%;
+            margin-left: 10%;
+            margin-top: 10%;
+            background-color: #412F3D;
+        }
+
+        .DetmenPanel {
+            position: relative;
+            width: 100%;
+            height: 10%;
+            border: none;
+            outline: none;
+            border-bottom: 2px solid #382634;
+        }
+
+        .DetmenPanelText {
+            position: absolute;
+            top: 25%;
+            left: 15px;
+            font-size: 20px;
+            white-space: nowrap;
+            text-align: left;
+            color: #DDDDDD;
+        }
+
+        @keyframes fadeShow {
+            0%,100% { opacity: 0 }
+            100% { opacity: 1 }
+        }
+        @keyframes fadeHide {
+            0%,100% { opacity: 1 }
+            100% { opacity: 0 }
+        }
+        
+        @keyframes DetailMenuShow {
+            from {width: 0px; height: 0px; visibility: hidden;}
+            to {width: 270px; height: 500px; visibility: visible;}
+        }
+        @keyframes DetailMenuHide {
+            from {width: 270px; height: 500px; visibility: visible;}
+            to {width: 0px; height: 0px; visibility: hidden;}
+        }
+    </style>
+    <title>Web Kelas</title>
+</head>
+<body>
+    <div style="width: 100%; height: 50px;"></div>
+    <div class="GaleriKelas" id="MainBod"></div>
+    <heder>
+        <button class="Hdetail" id="Hdetailbut" role="button" title="HdetailTil" onclick="TCMenu(TCMenu_state)">
+            <img style="width: 100%; height: 100%;" src="detail.png"></img>
+        </button>
+        <a1 style="position: relative; left: 55px; top: 6.5px; font-size: 25px; color: #DDDDDD; text-align: left;">Astronich</a1>
+        <div class="DetailMenu" id="DetMenu">
+            <div class="DetmenBody" id="DetMenuPanel">
+            </div>
+        </div>
+    </heder>
+    <script>
+        // The Astronich Web Testing
+        // Bisma Mods
+
+        // Global Var
+        var TCMenu_state = false
+
+        // Request Query
+        var RQuery = new URL(window.location.href)
+        var RQuery_body = RQuery.searchParams.get('body')
+        
+        // Main Post
+
+        switch (RQuery_body) {
+            case 'ClassGalery':
+            // Galery Kelas
+            var tabell = document.getElementById("MainBod")
+            tabell.appendChild(DNPost("Sample Judul", "6292912.jpg", "20-febuari-2069"))
+            tabell.appendChild(DNPost("Musyawarah Mandiri", "wpp.jpg", "69-kajuari-2020"))
+            tabell.appendChild(DNPost("Itaiyo Sed", "feksmel.png", "10-sadtyz-2019"))
+            tabell.appendChild(DNPost("End Of Post", "kimm2.jpg", "5-september-2022"))       
+            break;
+        
+            case 'ClassMembers':
+            // Anggota Kelas
+            var tabell = document.getElementById("MainBod")
+            tabell.appendChild(DNPost("Tidak Ada", "raillwp.webp", "tidak ada"))
+            break;
+
+            case 'CourseProgm':
+            // Kursus Progaming
+            var tabell = document.getElementById("MainBod")
+            tabell.appendChild(DNPost("Jadwal", "raillwp2.jpg", "tidak ada"))
+            break;
+            
+            case 'ShopMerch':
+            // Merchant Baju
+            var tabell = document.getElementById("MainBod")
+            tabell.appendChild(DNPost("Merchant", "bajujj.png", "tidak ada"))
+            break;
+
+            default:
+            break;
+        }
+        
+        // Detail Menu
+        function TCMenu(stateb) {
+            const butonb = document.getElementById("Hdetailbut")
+            const menub = document.getElementById("DetMenu")
+            const panelb = document.getElementById("DetMenuPanel")
+            const imgbb = document.createElement("img")
+
+            // Animation
+            if (stateb) {
+                // Anim Hide
+                TCMenu_state = false
+                imgbb.src = "detail.png"
+                imgbb.style.cssText = "width: 100%; height: 100%;"
+                imgbb.style.animation = "fadeShow 0.2s linear"
+
+                menub.style.width = "0px"
+                menub.style.height = "0px"
+                menub.style.visibility = "hidden"
+                menub.style.animation = "DetailMenuHide 0.2s linear"
+
+                panelb.style.animation = "fadeHide 0.1s linear"
+                panelb.style.opacity = "0"
+            } else {
+                // Anim Show
+                TCMenu_state = true
+                imgbb.src = "silang.png"
+                imgbb.style.cssText = "width: 80%; height: 80%;"
+                imgbb.style.animation = "fadeShow 0.2s linear"
+
+                menub.style.width = "270px"
+                menub.style.height = "500px"
+                menub.style.visibility = "visible"
+                menub.style.animation = "DetailMenuShow 0.2s linear"
+
+                panelb.style.animation = "fadeShow 0.35s linear"
+                panelb.style.opacity = "100"
+            }
+            butonb.innerHTML = ""
+            butonb.appendChild(imgbb)
+
+            // The Data
+            panelb.innerHTML = ""
+            panelb.appendChild(MPanel("Class Galery", "folder.png", "ClassGalery"))
+            panelb.appendChild(MPanel("Class Members", "folder.png", "ClassMembers"))
+            panelb.appendChild(MPanel("Course", "folder.png", "CourseProgm"))
+            panelb.appendChild(MPanel("Merchandines", "folder.png", "ShopMerch"))
+            panelb.appendChild(MPanel("About me", "folder.png", "About"))
+
+            // Detail Panel
+            function MPanel(str, ikon, addrs) {
+                var DOMB = document.createElement("button")
+                var DTEXT = document.createElement("a1")
+                // Body
+                DOMB.className = "DetmenPanel"
+                // Selection
+                if (addrs == RQuery_body) {
+                    var DOMBColor = "#5A3853"
+                } else {
+                    var DOMBColor = "transparent"
+                }
+                DOMB.style.backgroundColor = DOMBColor
+                // Hovered
+                function DHOVER() {
+                    DOMB.style.backgroundColor = "#564051"
+                }
+                function NHOVER() {
+                    DOMB.style.backgroundColor = DOMBColor
+                }
+                // Hovered PC
+                DOMB.onmouseover = DHOVER
+                DOMB.onmouseleave = NHOVER
+                // Hovered Mobile
+                DOMB.ontouchstart = DHOVER
+                DOMB.ontouchend = NHOVER
+                // Text
+                DTEXT.className = "DetmenPanelText"
+                DTEXT.innerText = str
+                // Onclick
+                DOMB.onclick = () => {
+                    TCMenu(true)
+                    setTimeout(() => {
+                        window.location = `?body=${addrs}`
+                    }, 200)
+                }
+                // Combine
+                DOMB.appendChild(DTEXT)
+                return DOMB
+            }
+
+        }
+
+        // Text
+        function DNText(str) {
+            return document.createTextNode(str)
+        }
+
+        // Posted Galery
+        function DNPost(judulb, imageb, tanggalb, urlb) {
+            var DOMB = document.createElement("div")
+            var DJudul = document.createElement("div")
+            var DJudulText = document.createElement("a1")
+            var DGambar = document.createElement("div")
+            var DGambarIMG = document.createElement("img")
+            var DTanggal = document.createElement("div")
+            var DTanggalText = document.createElement("a1")
+            // Body
+            DOMB.style.backgroundColor = "#412F3D"
+            DOMB.className = "Galeri"
+            // Judul
+            DJudul.className = "GaleJudul"
+            DJudulText.innerHTML = judulb
+            DJudulText.className = "GaleJudulText"
+            // Gambar
+            DGambar.className = "GaleGambar"
+            DGambarIMG.src = imageb
+            DGambarIMG.className = "GaleGambarIMG"
+            // Tanggal
+            DTanggal.className = "GaleTanggal"
+            DTanggalText.innerHTML = tanggalb
+            DTanggalText.className = "GaleTanggalText"
+            // Combine
+            DJudul.appendChild(DJudulText)
+            DGambar.appendChild(DGambarIMG)
+            DTanggal.appendChild(DTanggalText)
+            DOMB.appendChild(DJudul)
+            DOMB.appendChild(DGambar)
+            DOMB.appendChild(DTanggal)
+            return DOMB
+        }
+    </script>
+</body>
+</html>
